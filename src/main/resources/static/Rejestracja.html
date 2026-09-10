@@ -3,96 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ProjectGym rejestracja</title>
+    <title>Document</title>
 </head>
 <body>
-    <div>
-        <h1>Witaj</h1>
-        <p>Zarejestruj się</p>
-    </div>
-
-    <div id="alertBox"></div>
-
-    <div>
-        <form id="rejestracjaForm">
-            <div>
-                <label for="imie">Imie</label>
-                <input type="text" id="imie" required>
-            </div>
-             <div>
-                <label for="imie">Nazwisko</label>
-                <input type="text" id="nazwisko" required>
-            </div>
-             <div>
-                <label for="imie">Telefon</label>
-                <input type="number" id="telefon" required maxlength="9" minlength="9">
-            </div>
-            <div>
-                <label for="email">Adres e-mail</label>
-                <input type="email" id="email" required>
-            </div>
-            <div>
-                <label for="haslo">Hasło</label>
-                <input type="password" id="haslo" required>
-            </div>
-              <div>
-                <label for="haslo">Powtórz hasło</label>
-                <input type="password" id="phaslo" required>
-            </div>
-
-            <button type="submit">Zarejestruj się</button>
-        </form>
-
-        <div>
-            masz już konto? <a href="Logowanie.html">Zaloguj się</a>
-        </div>
-    </div>
-    <script>
-        const form = document.getElementById('rejestracjaForm');
-        const alertBox = document.getElementById('alertBox');
-
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            alertBox.classList.add('hidden');
-
-        const haslo = document.getElementById('haslo').value;
-    const phaslo = document.getElementById('phaslo').value;
-    if (haslo!==phaslo){
-        alertBox.textContent ='Hasła nie są identyczne!';
-        alertBox.classList.remove('hidden');
-        return
-    }
-
-            const dane = {
-                imie: document.getElementById('imie').value,
-                nazwisko: document.getElementById('nazwisko').value,
-                telefon: document.getElementById('telefon').value,
-                email: document.getElementById('email').value,
-                haslo: document.getElementById('haslo').value
-            };
-            try {
-                const response = await fetch('http://localhost:8080/api/users/rejestracja',{
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify(dane)
-                });
-                if(!response.ok){
-                    const errDane = await response.json().catch(()=>null);
-                    throw new Error(errDane?.message || 'Błąd rejestracji. Sprawdź poprawność danych')
-                }
-                alertBox.textContent = 'Konto utworzone! za chwilę przejdziesz do logowania';
-                alertBox.classList.remove("hidden");
-
-                setTimeout(()=>{
-                    window.location.href = 'Logowanie.html'
-                },1500)
-                
-            } catch (error) {
-                alertBox.textContent= error.message;
-                alertBox.classList.remove('hidden');
-            }
-
-        });
-    </script>
+    <h1>Rejestracja</h1>
 </body>
 </html>
