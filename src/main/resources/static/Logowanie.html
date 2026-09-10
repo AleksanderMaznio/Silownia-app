@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Gym - Logowanie</title>
+</head>
+<body>
+    <div>
+        <h1>Witaj ponownie</h1>
+        <p>Zaloguj się na swój profil siłowni</p>
+    </div>
+
+    <div id="alertBox"></div>
+
+    <div>
+        <form id="loginForm">
+            <div>
+                <label for="email">Adres e-mail</label>
+                <input type="email" id="email" required>
+            </div>
+            <div>
+                <label for="haslo">Hasło</label>
+                <input type="password" id="haslo" required>
+            </div>
+            <button type="submit">Zaloguj się</button>
+        </form>
+
+        <div>
+            Nie masz jeszcze konta? <a href="rejestracja.html">Zarejestruj się</a>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('loginForm');
+        const alertBox = document.getElementById('alertBox');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            alertBox.classList.add('hidden');
+
+            const dane = {
+                email: document.getElementById('email').value,
+                haslo: document.getElementById('haslo').value
+            };
+
+            try {
+                const response = await fetch('http://localhost:8080/api/users/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(dane)
+                });
+
+                if (!response.ok) {
+                    throw new Error('Nieprawidłowy e-mail lub hasło');
+                }
+
+                const user = await response.json();
+                localStorage.setItem('gymUser', JSON.stringify(user));
+                
+                alertBox.textContent = 'Zalogowano pomyślnie! Przekierowanie...';
+                alertBox.classList.remove('hidden');
+
+                setTimeout(() => window.location.href = 'PanelUsera.html', 800);
+            } catch (err) {
+                alertBox.textContent = err.message;
+                alertBox.classList.remove('hidden');
+            }
+        }); 
+    </script>
+</body>
+</html>
